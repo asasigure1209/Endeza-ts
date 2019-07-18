@@ -1,14 +1,14 @@
-import { Scene, Camera, PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { Scene, Camera, WebGLRenderer, Mesh } from 'three';
 
 class Renderer {
     scene: Scene;
-    camera: PerspectiveCamera;
+    camera: Camera;
     renderer: WebGLRenderer;
-    cube: Mesh
+    cube: Mesh;
 
-    constructor() {
+    constructor(camera: Camera) {
         this.scene = new Scene();
-        this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera = camera;
         this.renderer = new WebGLRenderer();
         
         this.renderer.setSize(window.innerWidth, window.innerHeight);
