@@ -1,5 +1,16 @@
 import Renderer from './Three/Renderer'
-import { PerspectiveCamera } from 'three';
+import Voxel from './Three/Voxel'
+import { PerspectiveCamera, Scene, Color } from 'three';
 
-const renderer: Renderer = new Renderer(new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000));
+const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+camera.position.set(0, 1500, 0)
+camera.lookAt(0, 0, 0);
+
+const scene = new Scene();
+scene.background = new Color(0xf0f0f0);
+
+const renderer: Renderer = new Renderer(camera, scene);
+const voxel = new Voxel(50, 20);
+
+renderer.addObjects(...voxel.rendererObjects);
 renderer.render();

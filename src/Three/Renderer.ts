@@ -1,4 +1,4 @@
-import { Scene, Camera, WebGLRenderer, Mesh } from 'three';
+import { Scene, Camera, WebGLRenderer, Mesh, Object3D } from 'three';
 
 class Renderer {
     scene: Scene;
@@ -6,8 +6,8 @@ class Renderer {
     renderer: WebGLRenderer;
     cube: Mesh;
 
-    constructor(camera: Camera) {
-        this.scene = new Scene();
+    constructor(camera: Camera, scene: Scene) {
+        this.scene = scene;
         this.camera = camera;
         this.renderer = new WebGLRenderer();
         
@@ -15,6 +15,10 @@ class Renderer {
         document.body.appendChild(this.renderer.domElement);
 
         this.render = this.render.bind(this)
+    }
+
+    addObjects(...objects: Object3D[]) {
+        this.scene.add(...objects)
     }
 
     render() {
