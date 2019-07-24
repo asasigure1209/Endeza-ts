@@ -103,6 +103,14 @@ class Map {
             bottom: bottomTiles
         }
     }
+
+    get verticalNumber() {
+        return this._verticalNumber;
+    }
+
+    get horizontalNumber() {
+        return this._horizontalNumber;
+    }
 }
 
 export default Map;
