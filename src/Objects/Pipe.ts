@@ -14,6 +14,8 @@ class Pipe {
     goForwardTank() {
         try {
             const state = this._world.goForwardTank();
+
+            //描画
         }
         catch {
             console.log("前に進めない!")
@@ -25,6 +27,8 @@ class Pipe {
             while(1) {
                 const state = this._world.goForwardTank()
                 console.log(state)
+
+                //描画
             }
         }
         catch {
