@@ -1,20 +1,77 @@
-export type Positions = {
+export type Routes = {
     top: boolean,
     right: boolean,
     bottom: boolean,
     left: boolean
 }
 
-class Tile {
-    private _positions: Positions;
+export const Routes = {
+    lowerLeft: {
+        top: true,
+        right: true,
+        bottom: false,
+        left: false
+    },
+    lowerRight: {
+        top: true,
+        right: false,
+        bottom: false,
+        left: true
+    },
+    upperLeft: {
+        top: false,
+        right: true,
+        bottom: true,
+        left: false
+    },
+    upperRight: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: true
+    },
+    center: {
+        top: true,
+        right: true,
+        bottom: true,
+        left: true
+    },
+    lower: {
+        top: true,
+        right: true,
+        bottom: false,
+        left: true
+    },
+    upper: {
+        top: false,
+        right: true,
+        bottom: true,
+        left: true
+    },
+    left: {
+        top: true,
+        right: true,
+        bottom: true,
+        left: false
+    },
+    right: {
+        top: true,
+        right: false,
+        bottom: true,
+        left: true
+    }
+};
 
-    constructor(positions: Positions) {
-        this._positions = positions;
+class Tile {
+    private _routes: Routes;
+
+    constructor(positions: Routes) {
+        this._routes = positions;
     }
 
-    get positions() {
-        return Object.assign({}, this._positions);
+    get routes() {
+        return Object.assign({}, this._routes);
     }
 }
 
-export default Tile
+export default Tile;
