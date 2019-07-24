@@ -23,6 +23,6 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "nw": "^0.39.3"
+    "nw": "^0.13.3-sdk"
   }
 }

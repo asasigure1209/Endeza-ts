@@ -98,6 +98,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./src/Objects/Tile.ts":
+/*!*****************************!*\
+  !*** ./src/Objects/Tile.ts ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nvar Tile = /** @class */ (function () {\r\n    function Tile(positions) {\r\n        this.positions = positions;\r\n    }\r\n    return Tile;\r\n}());\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (Tile);\r\n\n\n//# sourceURL=webpack:///./src/Objects/Tile.ts?");
+
+/***/ }),
+
 /***/ "./src/Three/Renderer.ts":
 /*!*******************************!*\
   !*** ./src/Three/Renderer.ts ***!
@@ -130,7 +142,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var thre
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Three_Renderer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Three/Renderer */ \"./src/Three/Renderer.ts\");\n/* harmony import */ var _Three_Voxel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Three/Voxel */ \"./src/Three/Voxel.ts\");\n/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ \"./node_modules/three/build/three.module.js\");\n\r\n\r\n\r\nvar camera = new three__WEBPACK_IMPORTED_MODULE_2__[\"PerspectiveCamera\"](45, window.innerWidth / window.innerHeight, 1, 10000);\r\ncamera.position.set(0, 1500, 0);\r\ncamera.lookAt(0, 0, 0);\r\nvar scene = new three__WEBPACK_IMPORTED_MODULE_2__[\"Scene\"]();\r\nscene.background = new three__WEBPACK_IMPORTED_MODULE_2__[\"Color\"](0xf0f0f0);\r\nvar renderer = new _Three_Renderer__WEBPACK_IMPORTED_MODULE_0__[\"default\"](camera, scene);\r\nvar voxel = new _Three_Voxel__WEBPACK_IMPORTED_MODULE_1__[\"default\"](50, 20);\r\nrenderer.addObjects.apply(renderer, voxel.rendererObjects);\r\nrenderer.render();\r\n\n\n//# sourceURL=webpack:///./src/main.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Three_Renderer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Three/Renderer */ \"./src/Three/Renderer.ts\");\n/* harmony import */ var _Three_Voxel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Three/Voxel */ \"./src/Three/Voxel.ts\");\n/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ \"./node_modules/three/build/three.module.js\");\n/* harmony import */ var _Objects_Tile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Objects/Tile */ \"./src/Objects/Tile.ts\");\n\r\n\r\n\r\n\r\nvar camera = new three__WEBPACK_IMPORTED_MODULE_2__[\"PerspectiveCamera\"](45, window.innerWidth / window.innerHeight, 1, 10000);\r\ncamera.position.set(0, 1500, 0);\r\ncamera.lookAt(0, 0, 0);\r\nvar scene = new three__WEBPACK_IMPORTED_MODULE_2__[\"Scene\"]();\r\nscene.background = new three__WEBPACK_IMPORTED_MODULE_2__[\"Color\"](0xf0f0f0);\r\nvar renderer = new _Three_Renderer__WEBPACK_IMPORTED_MODULE_0__[\"default\"](camera, scene);\r\nvar voxel = new _Three_Voxel__WEBPACK_IMPORTED_MODULE_1__[\"default\"](50, 20);\r\nrenderer.addObjects.apply(renderer, voxel.rendererObjects);\r\nrenderer.render();\r\nvar positions = {\r\n    top: true,\r\n    right: true,\r\n    bottom: true,\r\n    left: true\r\n};\r\nvar tile = new _Objects_Tile__WEBPACK_IMPORTED_MODULE_3__[\"default\"](positions);\r\nconsole.log(tile.positions.bottom);\r\ntile.positions.top = false;\r\nconsole.log(tile.positions.top);\r\n\n\n//# sourceURL=webpack:///./src/main.ts?");
 
 /***/ })
 
