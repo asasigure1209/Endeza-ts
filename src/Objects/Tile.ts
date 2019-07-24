@@ -5,7 +5,7 @@ export type Routes = {
     left: boolean
 }
 
-export const Routes = {
+export const RoutesTemplate = {
     lowerLeft: {
         top: true,
         right: true,
