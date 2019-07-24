@@ -6,10 +6,14 @@ export type Positions = {
 }
 
 class Tile {
-    positions: Positions;
+    private _positions: Positions;
 
     constructor(positions: Positions) {
-        this.positions = positions;
+        this._positions = positions;
+    }
+
+    get positions() {
+        return Object.assign({}, this._positions);
     }
 }
 
