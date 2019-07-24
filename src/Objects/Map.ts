@@ -111,6 +111,10 @@ class Map {
     get horizontalNumber() {
         return this._horizontalNumber;
     }
+
+    get tiles() {
+        return Array.from(this._tiles);
+    }
 }
 
 export default Map;
