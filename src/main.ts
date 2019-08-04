@@ -7,6 +7,8 @@ import World from './Objects/World';
 import { Position } from './Enum/Position';
 import Pipe from './Objects/Pipe';
 
+
+/* WebGL */
 const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
 camera.position.set(0, 1500, 0)
 camera.lookAt(0, 0, 0);
@@ -20,6 +22,8 @@ const voxel = new Voxel(50, 20);
 renderer.addObjects(...voxel.rendererObjects);
 renderer.render();
 
+
+/* VTank */
 const tiles = [
     new Tile(RoutesTemplate.upperLeft),
     new Tile(RoutesTemplate.upper),
@@ -40,13 +44,11 @@ const tiles = [
 ];
 
 const map = new Map(4, 4, tiles);
-console.log('map generated');
-
 const world = new World(map, 12, Position.Top)
-console.log('world generated');
-
 const pipe = new Pipe(world);
 
+
+/* DOM */
 const body = document.querySelector('body');
 
 const button1 = document.createElement('button');
