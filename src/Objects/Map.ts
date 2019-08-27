@@ -17,9 +17,66 @@ class Map {
             this._verticalNumber = verticalNumber;
             this._horizontalNumber = horizontalNumber;
             this._tiles = tiles;
+
+            console.log("以下のマップを生成しました。")
+            this.print();
         } else {
-            throw "Tileに不備があります"
+            throw "Tileに不備があります";
         }
+    }
+
+    print() {
+        const displayRoutes = this.getDisplayRoutes();
+        let str = "";
+    
+        for (let i = 0; i < this._horizontalNumber * 3; i++) {
+            for (let j = 0; j < this._verticalNumber * 3; j++) {
+                if (displayRoutes[j + i * this._horizontalNumber * 3]) {
+                    str += "　";
+                } else {
+                    str += "＃";
+                }
+            }
+
+            str += "\n";
+        }
+
+        console.log(str);
+    }
+
+    // 描画順にRouteを並び替える
+    private getDisplayRoutes() {
+        let sortedTilesRoutes: boolean[] = [];
+
+        for(let y = 0; y < this._verticalNumber; y++) {
+            for (let i = 0; i < 4; i++) {
+                for(let x = 0; x < this._horizontalNumber; x++) {
+                    const currentTile = this._tiles[y * this._verticalNumber + x].routes;
+                    
+                    switch(i) {
+                        case 0:
+                            sortedTilesRoutes.push(false);
+                            sortedTilesRoutes.push(currentTile.top);
+                            sortedTilesRoutes.push(false);
+                            break;
+                        case 1:
+                            sortedTilesRoutes.push(currentTile.left);
+                            sortedTilesRoutes.push(true);
+                            break;
+                        case 2:
+                            sortedTilesRoutes.push(currentTile.right);
+                            break;
+                        case 3:
+                            sortedTilesRoutes.push(false);
+                            sortedTilesRoutes.push(currentTile.bottom);
+                            sortedTilesRoutes.push(false);
+                            break;
+                    }
+                }
+            }
+        }
+
+        return sortedTilesRoutes;
     }
 
     // タイルの数があっているか
