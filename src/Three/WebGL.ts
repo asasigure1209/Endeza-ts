@@ -41,7 +41,7 @@ class WebGL {
     private renderMap(displayRoutes: boolean[], horizontalNumber: number) {
         // cubes
         const cubeGeo = new BoxGeometry(this._cubeSize, this._cubeSize, this._cubeSize);
-        const cubeMaterial = new MeshBasicMaterial({ color: 0xFFFFFF });
+        const cubeMaterial = new MeshBasicMaterial({ color: 0x003300 });
 
         let cubePosition = new Vector3().copy(this._cubeBasePosition);
 

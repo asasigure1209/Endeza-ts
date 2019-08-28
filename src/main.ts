@@ -1,29 +1,12 @@
-import Renderer from './Three/Renderer'
-import Voxel from './Three/Voxel'
-import { PerspectiveCamera, Scene, Color, TrianglesDrawMode } from 'three';
-import Tile, { RoutesTemplate } from './Objects/Tile';
-import Map from './Objects/Map';
-import World from './Objects/World';
-import { Position } from './Enum/Position';
-import Pipe from './Objects/Pipe';
+import Tile, { RoutesTemplate } from "./Objects/Tile";
+import Map from "./Objects/Map";
+import World from "./Three/World";
+import { Position } from "./Enum/Position";
+import { Scene, PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh, GridHelper, BoxBufferGeometry, Vector3 } from "three";
 
+/* VTank内部 */
 
-/* WebGL */
-const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-camera.position.set(0, 1500, 0)
-camera.lookAt(0, 0, 0);
-
-const scene = new Scene();
-scene.background = new Color(0xf0f0f0);
-
-const renderer: Renderer = new Renderer(camera, scene);
-const voxel = new Voxel(50, 20);
-
-renderer.addObjects(...voxel.rendererObjects);
-renderer.render();
-
-
-/* VTank */
+// 利用するTile(4x4)
 const tiles = [
     new Tile(RoutesTemplate.upperLeft),
     new Tile(RoutesTemplate.upper),
@@ -43,21 +26,6 @@ const tiles = [
     new Tile(RoutesTemplate.lowerRight)
 ];
 
+// Mapの生成
 const map = new Map(4, 4, tiles);
-const world = new World(map, 12, Position.Top)
-const pipe = new Pipe(world);
-
-
-/* DOM */
-const body = document.querySelector('body');
-
-const button1 = document.createElement('button');
-button1.textContent = "前へ進む";
-button1.onclick = pipe.goForwardTank;
-
-const button2 = document.createElement('button');
-button2.textContent = "ぶつかるまで前に進む";
-button2.onclick = pipe.goWallForwardTank;
-
-body.appendChild(button1);
-body.appendChild(button2);
+const world = new World(map, 4, Position.Bottom);

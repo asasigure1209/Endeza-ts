@@ -1,6 +1,6 @@
 module.exports = {
     mode: "development",
-    entry: "./src/main2.ts",
+    entry: "./src/main.ts",
     output: {
         path: `${__dirname}/dist`,
         filename: "main.js"

@@ -29,8 +29,8 @@ class World {
 
         this.goForwardTank = this.goForwardTank.bind(this);
 
-        console.log(`初期の位置: ${ this._states[0].location }`);
-        console.log(`初期の方向: ${ this._states[0].position }`);
+        console.log("tankをマップ上に配置しました。");
+        this.print();
     }
 
     // 前に1マス進む
