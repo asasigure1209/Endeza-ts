@@ -26,22 +26,35 @@ class Map {
     }
 
     print() {
+        let str = this.getDisplayStrings();
+        let text = "";
+
+        for (let i = 0; i < this._horizontalNumber * 3; i++) {
+            for (let j = 0; j < this._verticalNumber * 3; j++) {
+                text += str[j + i * this._horizontalNumber * 3];
+            }
+
+            text += "\n";
+        }
+
+        console.log(text);
+    }
+
+    getDisplayStrings() {
         const displayRoutes = this.getDisplayRoutes();
-        let str = "";
+        let str = [];
     
         for (let i = 0; i < this._horizontalNumber * 3; i++) {
             for (let j = 0; j < this._verticalNumber * 3; j++) {
                 if (displayRoutes[j + i * this._horizontalNumber * 3]) {
-                    str += "　";
+                    str.push("　");
                 } else {
-                    str += "＃";
+                    str.push("＃");
                 }
             }
-
-            str += "\n";
         }
 
-        console.log(str);
+        return str;
     }
 
     // 描画順にRouteを並び替える

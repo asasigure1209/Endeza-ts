@@ -51,6 +51,47 @@ class World {
         return Object.assign({}, state);
     }
 
+    print() {
+        let displayStrings = Array.from(this._map.getDisplayStrings());
+        let tankChar: string;
+
+        switch(this._tankPosition) {
+            case Position.Top:
+                tankChar = "上";
+                break;
+            case Position.Right:
+                tankChar = "右";
+                break;
+            case Position.Bottom:
+                tankChar = "下";
+                break;
+            case Position.Left:
+                tankChar = "左";
+                break;
+        }
+
+        displayStrings[this.getDisplayLocation()] = tankChar;
+
+        let text = "";
+
+        for (let i = 0; i < this._map.horizontalNumber * 3; i++) {
+            for (let j = 0; j < this._map.verticalNumber * 3; j++) {
+                text += displayStrings[j + i * this._map.horizontalNumber * 3];
+            }
+
+            text += "\n";
+        }
+
+        console.log(text);
+    }
+
+    // 描画上のタンクの位置
+    private getDisplayLocation() {
+        const y = Math.floor(this._tankLocation / this._map.horizontalNumber);
+        const x = this._tankLocation - y * this._map.horizontalNumber;
+        return (1 + 3 * y) * this._map.horizontalNumber * 3 + (1 + 3 * x);
+    }
+
     private isRoute() {
         switch(this._tankPosition) {
             case Position.Top:

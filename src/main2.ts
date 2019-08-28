@@ -20,4 +20,5 @@ const tiles = [
 
 // Mapの生成
 const map = new Map(3, 3, tiles);
-const world = new World(map, 0, Position.Top);
+const world = new World(map, 3, Position.Bottom);
+world.print();
