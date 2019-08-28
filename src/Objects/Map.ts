@@ -58,7 +58,7 @@ class Map {
     }
 
     // 描画順にRouteを並び替える
-    private getDisplayRoutes() {
+    getDisplayRoutes() {
         let sortedTilesRoutes: boolean[] = [];
 
         for(let y = 0; y < this._verticalNumber; y++) {
