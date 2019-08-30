@@ -1,7 +1,6 @@
 import Map from "../Objects/Map";
 import WebGL from "../Three/WebGL";
 import { Position } from "../Enum/Position";
-import { Scene, Camera, PerspectiveCamera, Renderer, WebGLRenderer } from "three";
 
 type State = {
     order: string,
@@ -14,6 +13,7 @@ class World {
     private _tankLocation: number;
     private _tankPosition: Position;
     private _states: State[];
+    private _webGl: WebGL;
 
     constructor(map: Map, tankLocation: number, tankPosition: Position) {
         if (!(map.horizontalNumber * map.verticalNumber > tankLocation || tankLocation >= 0)) {
@@ -29,13 +29,25 @@ class World {
             position: this._tankPosition
         }];
 
+        // WebGL
+        this._webGl = new WebGL(map.horizontalNumber, 1000, map, tankLocation, tankPosition);
+
         this.goForwardTank = this.goForwardTank.bind(this);
 
         console.log("tankをマップ上に配置しました。");
         this.print();
+    }
 
-        // WebGL
-        new WebGL(map.horizontalNumber, 1000, map);
+    turnRight() {
+        this._tankPosition = (this._tankPosition + 1) % 4;
+    }
+
+    turnLeft() {
+        if (this._tankPosition < 0) {
+            this._tankPosition = 3;
+        } else {
+            this._tankPosition = this._tankPosition - 1;
+        }
     }
 
     // 前に1マス進む
@@ -44,6 +56,7 @@ class World {
             throw "前に進めません";
         }
 
+        this._webGl.moveTank(this.getForwardLocation(), this._tankPosition, this._tankLocation);
         this._tankLocation = this.getForwardLocation();
 
         const state = {

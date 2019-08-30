@@ -2,7 +2,6 @@ import Tile, { RoutesTemplate } from "./Objects/Tile";
 import Map from "./Objects/Map";
 import World from "./Three/World";
 import { Position } from "./Enum/Position";
-import { Scene, PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh, GridHelper, BoxBufferGeometry, Vector3 } from "three";
 
 /* VTank内部 */
 
@@ -28,4 +27,17 @@ const tiles = [
 
 // Mapの生成
 const map = new Map(4, 4, tiles);
-const world = new World(map, 4, Position.Bottom);
+const world = new World(map, 0, Position.Bottom);
+
+world.goForwardTank();
+world.turnLeft();
+world.goForwardTank();
+world.turnRight();
+world.goForwardTank();
+world.turnLeft();
+world.goForwardTank();
+world.turnRight();
+world.goForwardTank();
+world.turnLeft();
+world.goForwardTank();
+world.turnRight();
