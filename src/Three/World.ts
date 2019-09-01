@@ -33,21 +33,44 @@ class World {
         this._webGl = new WebGL(map.horizontalNumber, 1000, map, tankLocation, tankPosition);
 
         this.goForwardTank = this.goForwardTank.bind(this);
+        this.turnLeftTank = this.turnLeftTank.bind(this);
+        this.turnRightTank = this.turnRightTank.bind(this);
 
         console.log("tankをマップ上に配置しました。");
         this.print();
     }
 
-    turnRight() {
+    turnRightTank() {
         this._tankPosition = (this._tankPosition + 1) % 4;
+        this._webGl.turnRight();
+
+        const state = {
+            order: "turnRight",
+            location: this._tankLocation,
+            position: this._tankPosition
+        };
+
+        this._states.push(state);
+        return Object.assign({}, state);
     }
 
-    turnLeft() {
+    turnLeftTank() {
         if (this._tankPosition < 0) {
             this._tankPosition = 3;
         } else {
             this._tankPosition = this._tankPosition - 1;
         }
+
+        this._webGl.turnLeft();
+
+        const state = {
+            order: "turnLeftTank",
+            location: this._tankLocation,
+            position: this._tankPosition
+        };
+
+        this._states.push(state);
+        return Object.assign({}, state);
     }
 
     // 前に1マス進む
@@ -69,8 +92,8 @@ class World {
         return Object.assign({}, state);
     }
 
-    render() {
-
+    log() {
+        console.log(this._states);
     }
 
     print() {

@@ -4,8 +4,9 @@ import { Position } from "../Enum/Position";
 import { posix } from "path";
 
 type event = {
-    position: Position,
-    moveValue: number,
+    moveValue?: number,
+    turnRight?: boolean,
+    turnLeft?: boolean,
     counter: number
 }
 
@@ -18,6 +19,7 @@ class WebGL {
     private _horizontalNumber: number;
     private _tank: Mesh;
     private _animationEvents: event[];
+    private _animationSpeed: number;
 
     constructor(horizontalNumber: number, width: number, map: Map, tankLocation: number, tankPosition: Position) {
         // WebGL
@@ -37,6 +39,7 @@ class WebGL {
         const tankMaterial = new MeshBasicMaterial({ color: 0xFFFFFF });
         this._tank = new Mesh(tankGeo, tankMaterial);
         this._animationEvents = [];
+        this._animationSpeed = 60;
 
         this.animate = this.animate.bind(this);
 
@@ -46,30 +49,24 @@ class WebGL {
     }
 
     moveTank(destination: number, tankPosition: Position, tankLocation: number) {
-        const destinationY = Math.floor(destination / this._horizontalNumber);
-        const destinationX = destination - destinationY * this._horizontalNumber;
+        this._animationEvents.push({
+            moveValue: 1,
+            counter: this._animationSpeed
+        });
+    }
 
-        const y = Math.floor(tankLocation / this._horizontalNumber);
-        const x = tankLocation - y * this._horizontalNumber;
+    turnRight() {
+        this._animationEvents.push({
+            turnRight: true,
+            counter: this._animationSpeed
+        });
+    }
 
-        switch(tankPosition){
-            case Position.Top:
-            case Position.Bottom:
-                this._animationEvents.push({
-                    position: tankPosition,
-                    moveValue: destinationY - y,
-                    counter: 60
-                });
-                break;
-            case Position.Right:
-            case Position.Left:
-                this._animationEvents.push({
-                    position: tankPosition,
-                    moveValue: destinationX - x,
-                    counter: 60
-                });
-                break;
-        }
+    turnLeft() {
+        this._animationEvents.push({
+            turnLeft: true,
+            counter: this._animationSpeed
+        });
     }
 
     private init() {
@@ -90,11 +87,20 @@ class WebGL {
         const z = Math.floor(displayLocation / (this._horizontalNumber * 3));
         const x = displayLocation - z * this._horizontalNumber * 3;
 
-        console.log(z, this._horizontalNumber);
-
         let displayTankLocation = new Vector3().copy(this._cubeBasePosition);
         displayTankLocation.x += this._cubeSize * x;
         displayTankLocation.z += this._cubeSize * z;
+
+        switch(tankPosition) {
+            case Position.Top:
+                this._tank.rotateY(Math.PI/2);
+                break;
+            case Position.Bottom:
+                this._tank.rotateY(-Math.PI/2);
+                break;
+            case Position.Left:
+                this._tank.rotateY(Math.PI);
+        }
 
         this._tank.position.add(displayTankLocation);
         this._scene.add(this._tank);
@@ -137,16 +143,16 @@ class WebGL {
         let event = this._animationEvents.shift();
 
         if (event) {
-            console.log(event.counter);
+            // 移動
+            if (event.moveValue) {
+                this._tank.translateX((event.moveValue * this._cubeSize * 3) / this._animationSpeed);
+            }
 
-            switch(event.position) {
-                case Position.Top:
-                case Position.Bottom:
-                    this._tank.translateZ((event.moveValue * this._cubeSize * 3) / 60);
-                    break;
-                case Position.Right:
-                case Position.Left:
-                    this._tank.translateX((event.moveValue * this._cubeSize * 3) / 60);
+            // 回転
+            if (event.turnRight) {
+                this._tank.rotateY((-Math.PI/2) / this._animationSpeed);
+            } else if (event.turnLeft) {
+                this._tank.rotateY((Math.PI/2) / this._animationSpeed);
             }
 
             event.counter -= 1;
