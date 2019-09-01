@@ -32,9 +32,26 @@ class World {
         // WebGL
         this._webGl = new WebGL(map.horizontalNumber, 1000, map, tankLocation, tankPosition);
 
+
+        // DOM(button)
         this.goForwardTank = this.goForwardTank.bind(this);
         this.turnLeftTank = this.turnLeftTank.bind(this);
         this.turnRightTank = this.turnRightTank.bind(this);
+
+        const goForwardTankButton = document.createElement('button');
+        goForwardTankButton.textContent = "前に進む";
+        goForwardTankButton.onclick = this.goForwardTank;
+        document.body.appendChild(goForwardTankButton);
+
+        const turnRightTankButton = document.createElement('button');
+        turnRightTankButton.textContent = "右に回る";
+        turnRightTankButton.onclick = this.turnRightTank;
+        document.body.appendChild(turnRightTankButton);
+
+        const turnLeftTankButton = document.createElement('button');
+        turnLeftTankButton.textContent = "左に回る";
+        turnLeftTankButton.onclick = this.turnLeftTank;
+        document.body.appendChild(turnLeftTankButton);
 
         console.log("tankをマップ上に配置しました。");
         this.print();

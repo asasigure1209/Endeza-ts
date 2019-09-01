@@ -28,16 +28,3 @@ const tiles = [
 // Mapの生成
 const map = new Map(4, 4, tiles);
 const world = new World(map, 0, Position.Bottom);
-
-world.goForwardTank();
-world.turnLeftTank();
-world.goForwardTank();
-world.turnRightTank();
-world.goForwardTank();
-world.turnLeftTank();
-world.goForwardTank();
-world.turnRightTank();
-world.goForwardTank();
-world.turnLeftTank();
-world.goForwardTank();
-world.log();
