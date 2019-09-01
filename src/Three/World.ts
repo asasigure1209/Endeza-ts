@@ -72,7 +72,7 @@ class World {
     }
 
     turnLeftTank() {
-        if (this._tankPosition < 0) {
+        if (this._tankPosition <= 0) {
             this._tankPosition = 3;
         } else {
             this._tankPosition = this._tankPosition - 1;
