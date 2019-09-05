@@ -1,13 +1,19 @@
-import { Scene, Camera, PerspectiveCamera, Renderer, WebGLRenderer, GridHelper, Vector3, BoxGeometry, MeshBasicMaterial, Mesh, UnsignedByteType, PositionalAudioHelper } from "three";
+import { Scene, Camera, PerspectiveCamera, Renderer, WebGLRenderer, GridHelper, Vector3, BoxGeometry, MeshBasicMaterial, Mesh, UnsignedByteType, PositionalAudioHelper, Euler } from "three";
 import Map from "../Objects/Map";
 import { Position } from "../Enum/Position";
 import { posix } from "path";
 
 type event = {
+    reset?: boolean,
     moveValue?: number,
     turnRight?: boolean,
     turnLeft?: boolean,
-    counter: number
+    counter?: number
+}
+
+type state = {
+    location: Vector3,
+    rotation: Euler
 }
 
 class WebGL {
@@ -20,6 +26,7 @@ class WebGL {
     private _tank: Mesh;
     private _animationEvents: event[];
     private _animationSpeed: number;
+    private _state: state[];
 
     constructor(horizontalNumber: number, width: number, map: Map, tankLocation: number, tankPosition: Position) {
         // WebGL
@@ -40,6 +47,7 @@ class WebGL {
         this._tank = new Mesh(tankGeo, tankMaterial);
         this._animationEvents = [];
         this._animationSpeed = 60;
+        this._state = [];
 
         this.animate = this.animate.bind(this);
 
@@ -67,6 +75,12 @@ class WebGL {
             turnLeft: true,
             counter: this._animationSpeed
         });
+    }
+
+    reset() {
+        this._animationEvents.push({
+            reset: true
+        })
     }
 
     private init() {
@@ -103,6 +117,7 @@ class WebGL {
         }
 
         this._tank.position.add(displayTankLocation);
+
         this._scene.add(this._tank);
     }
 
@@ -143,22 +158,38 @@ class WebGL {
         let event = this._animationEvents.shift();
 
         if (event) {
-            // 移動
-            if (event.moveValue) {
-                this._tank.translateX((event.moveValue * this._cubeSize * 3) / this._animationSpeed);
-            }
+            // 前に戻る
+            if (event.reset) {
+                const beforeState = this._state.pop();
+                this._tank.position.set(beforeState.location.x, beforeState.location.y, beforeState.location.z);
+                this._tank.rotation.set(this._tank.rotation.x, beforeState.rotation.y, this._tank.rotation.z);
+            } else {
+                // 前のタンクの状態を保存
+                if (event.counter === this._animationSpeed) {
+                    this._state.push({
+                        location: this._tank.position.clone(),
+                        rotation: this._tank.rotation.clone()
+                    });
+                }
 
-            // 回転
-            if (event.turnRight) {
-                this._tank.rotateY((-Math.PI/2) / this._animationSpeed);
-            } else if (event.turnLeft) {
-                this._tank.rotateY((Math.PI/2) / this._animationSpeed);
-            }
+                // 移動
+                if (event.moveValue) {
+                    this._tank.translateX((event.moveValue * this._cubeSize * 3) / this._animationSpeed);
+                }
 
-            event.counter -= 1;
+                // 回転
+                if (event.turnRight) {
+                    this._tank.rotateY((-Math.PI/2) / this._animationSpeed);
+                } else if (event.turnLeft) {
+                    this._tank.rotateY((Math.PI/2) / this._animationSpeed);
+                }
 
-            if (event.counter > 0) {
-                this._animationEvents.unshift(event);   
+                event.counter -= 1;
+
+                // 終了
+                if (event.counter > 0) {
+                    this._animationEvents.unshift(event);   
+                }
             }
         }
 

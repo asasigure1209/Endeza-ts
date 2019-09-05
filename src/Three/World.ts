@@ -37,6 +37,7 @@ class World {
         this.goForwardTank = this.goForwardTank.bind(this);
         this.turnLeftTank = this.turnLeftTank.bind(this);
         this.turnRightTank = this.turnRightTank.bind(this);
+        this.reset = this.reset.bind(this);
 
         const goForwardTankButton = document.createElement('button');
         goForwardTankButton.textContent = "前に進む";
@@ -53,6 +54,11 @@ class World {
         turnLeftTankButton.onclick = this.turnLeftTank;
         document.body.appendChild(turnLeftTankButton);
 
+        const resetTankButton = document.createElement('button');
+        resetTankButton.textContent = "前に戻る";
+        resetTankButton.onclick = this.reset;
+        document.body.appendChild(resetTankButton);
+
         console.log("tankをマップ上に配置しました。");
         this.print();
     }
@@ -68,6 +74,7 @@ class World {
         };
 
         this._states.push(state);
+        this.print();
         return Object.assign({}, state);
     }
 
@@ -87,6 +94,7 @@ class World {
         };
 
         this._states.push(state);
+        this.print();
         return Object.assign({}, state);
     }
 
@@ -106,7 +114,26 @@ class World {
         };
 
         this._states.push(state);
+        this.print();
         return Object.assign({}, state);
+    }
+
+    reset() {
+        console.log("reset");
+
+        if (this._states.length <= 1) {
+            throw "これ以上戻れません";
+        }
+
+        this._states.pop();
+
+        const beforeState = this._states[this._states.length - 1];
+
+        this._tankLocation = beforeState.location;
+        this._tankPosition = beforeState.position;
+
+        this.print();
+        this._webGl.reset();
     }
 
     log() {
