@@ -1,7 +1,6 @@
 import { Scene, Camera, PerspectiveCamera, Renderer, WebGLRenderer, GridHelper, Vector3, BoxGeometry, MeshBasicMaterial, Mesh, UnsignedByteType, PositionalAudioHelper, Euler } from "three";
 import Map from "../Objects/Map";
 import { Position } from "../Enum/Position";
-import { posix } from "path";
 
 type event = {
     reset?: boolean,
@@ -31,7 +30,7 @@ class WebGL {
     constructor(horizontalNumber: number, width: number, map: Map, tankLocation: number, tankPosition: Position) {
         // WebGL
         this._scene = new Scene();
-        this._camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+        this._camera = new PerspectiveCamera(45, 1, 1, 10000);
         this._renderer = new WebGLRenderer({ antialias: true });
 
         this._horizontalNumber = horizontalNumber;
@@ -84,7 +83,7 @@ class WebGL {
     }
 
     private init() {
-        this._renderer.setSize( window.innerWidth, window.innerHeight);
+        this._renderer.setSize( window.innerWidth / 2, window.innerWidth / 2);
         document.body.appendChild( this._renderer.domElement );
 
         this._camera.position.set(0, 1800, 400);
