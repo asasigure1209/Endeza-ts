@@ -55,9 +55,9 @@ class WebGL {
         this.renderTank(tankLocation, tankPosition);
     }
 
-    moveTank(destination: number, tankPosition: Position, tankLocation: number) {
+    moveTank(moveValue: number) {
         this._animationEvents.push({
-            moveValue: 1,
+            moveValue: moveValue,
             counter: this._animationSpeed
         });
     }

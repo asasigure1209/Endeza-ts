@@ -37,7 +37,9 @@ class World {
         this.goForwardTank = this.goForwardTank.bind(this);
         this.turnLeftTank = this.turnLeftTank.bind(this);
         this.turnRightTank = this.turnRightTank.bind(this);
+        this.goForwardTankToEnd = this. goForwardTankToEnd.bind(this);
         this.reset = this.reset.bind(this);
+        this.log = this.log.bind(this);
 
         const goForwardTankButton = document.createElement('button');
         goForwardTankButton.textContent = "前に進む";
@@ -54,10 +56,20 @@ class World {
         turnLeftTankButton.onclick = this.turnLeftTank;
         document.body.appendChild(turnLeftTankButton);
 
+        const goForwardTankToEndButton = document.createElement('button');
+        goForwardTankToEndButton.textContent = "ぶつかるまで進む";
+        goForwardTankToEndButton.onclick = this.goForwardTankToEnd;
+        document.body.appendChild(goForwardTankToEndButton);
+
         const resetTankButton = document.createElement('button');
         resetTankButton.textContent = "前に戻る";
         resetTankButton.onclick = this.reset;
         document.body.appendChild(resetTankButton);
+
+        const logButton = document.createElement('button');
+        logButton.textContent = "ログ";
+        logButton.onclick = this.log;
+        document.body.appendChild(logButton);
 
         console.log("tankをマップ上に配置しました。");
         this.print();
@@ -104,11 +116,32 @@ class World {
             throw "前に進めません";
         }
 
-        this._webGl.moveTank(this.getForwardLocation(), this._tankPosition, this._tankLocation);
+        this._webGl.moveTank(1);
         this._tankLocation = this.getForwardLocation();
 
         const state = {
             order: "goForwardTank",
+            location: this._tankLocation,
+            position: this._tankPosition
+        };
+
+        this._states.push(state);
+        this.print();
+        return Object.assign({}, state);
+    }
+
+    goForwardTankToEnd(): State {
+        let moveValue = 0;
+
+        while(this.isRoute()) {
+            this._tankLocation = this.getForwardLocation();
+            moveValue++;
+        }
+
+        this._webGl.moveTank(moveValue);
+        
+        const state = {
+            order: "goForwardTankToEnd",
             location: this._tankLocation,
             position: this._tankPosition
         };
