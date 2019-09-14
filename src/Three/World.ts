@@ -1,8 +1,9 @@
 import Map from "../Objects/Map";
 import WebGL from "../Three/WebGL";
 import { Position } from "../Enum/Position";
+import Display from "../Objects/Display";
 
-type State = {
+export type State = {
     order: string,
     location: number,
     position: Position
@@ -85,6 +86,7 @@ class World {
             position: this._tankPosition
         };
 
+        Display.print(state);
         this._states.push(state);
         this.print();
         return Object.assign({}, state);
@@ -105,6 +107,7 @@ class World {
             position: this._tankPosition
         };
 
+        Display.print(state);
         this._states.push(state);
         this.print();
         return Object.assign({}, state);
@@ -125,6 +128,7 @@ class World {
             position: this._tankPosition
         };
 
+        Display.print(state);
         this._states.push(state);
         this.print();
         return Object.assign({}, state);
@@ -146,6 +150,7 @@ class World {
             position: this._tankPosition
         };
 
+        Display.print(state);
         this._states.push(state);
         this.print();
         return Object.assign({}, state);
@@ -159,6 +164,7 @@ class World {
         }
 
         this._states.pop();
+        Display.delete();
 
         const beforeState = this._states[this._states.length - 1];
 

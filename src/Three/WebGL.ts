@@ -83,8 +83,9 @@ class WebGL {
     }
 
     private init() {
-        this._renderer.setSize( window.innerWidth / 2, window.innerWidth / 2);
-        document.body.appendChild( this._renderer.domElement );
+        this._renderer.setSize( window.innerWidth / 2, window.innerWidth / 2 - 20);
+        const canvas = document.querySelector("div.canvas");
+        canvas.appendChild( this._renderer.domElement );
 
         this._camera.position.set(0, 1800, 400);
         this._camera.lookAt(0, 0, 0);

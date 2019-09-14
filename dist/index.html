@@ -2,14 +2,24 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Three.js</title>
     <style>
         body { margin: 0; padding: 0 }
-        canvas { width: 50%; height: 100% }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); }
+        .canvas { width: 50%; height: 100% }
     </style>
 </head>
 <body>
+    <div class="grid">
+        <div class="canvas">
+        </div>
+        <div class="display">
+            <h1>Display</h1>
+            <div class="order">
+            </div>
+        </div>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
