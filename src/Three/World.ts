@@ -134,6 +134,30 @@ class World {
         return Object.assign({}, state);
     }
 
+    goForwardTankWithSquares(square: number) {
+        let moveValue = 0;
+
+        for (let i = 0; i < square; i++) {
+            if (this.isRoute()){
+                this._tankLocation = this.getForwardLocation();
+                moveValue++;   
+            }
+        }
+
+        this._webGl.moveTank(moveValue);
+
+        const state = {
+            order: `goForwardTank(${moveValue} squares)`,
+            location: this._tankLocation,
+            position: this._tankPosition
+        };
+
+        Display.print(state);
+        this._states.push(state);
+        this.print();
+        return Object.assign({}, state);
+    }
+
     goForwardTankToEnd(): State {
         let moveValue = 0;
 
