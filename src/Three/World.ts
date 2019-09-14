@@ -81,7 +81,7 @@ class World {
         this._webGl.turnRight();
 
         const state = {
-            order: "turnRight",
+            order: "右ニマワレ",
             location: this._tankLocation,
             position: this._tankPosition
         };
@@ -102,7 +102,7 @@ class World {
         this._webGl.turnLeft();
 
         const state = {
-            order: "turnLeftTank",
+            order: "左ニマワレ",
             location: this._tankLocation,
             position: this._tankPosition
         };
@@ -123,7 +123,7 @@ class World {
         this._tankLocation = this.getForwardLocation();
 
         const state = {
-            order: "goForwardTank",
+            order: "前ニススメ",
             location: this._tankLocation,
             position: this._tankPosition
         };
@@ -147,7 +147,7 @@ class World {
         this._webGl.moveTank(moveValue);
 
         const state = {
-            order: `goForwardTank(${moveValue} squares)`,
+            order: `前ニ${moveValue}マス進め`,
             location: this._tankLocation,
             position: this._tankPosition
         };
@@ -169,7 +169,7 @@ class World {
         this._webGl.moveTank(moveValue);
         
         const state = {
-            order: "goForwardTankToEnd",
+            order: "ぶつかるまで前に進め",
             location: this._tankLocation,
             position: this._tankPosition
         };
