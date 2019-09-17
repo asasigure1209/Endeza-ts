@@ -7,7 +7,8 @@ export type State = {
     order: string,
     location: number,
     position: Position,
-    moveValue: number
+    moveValue: number,
+    function?: any
 }
 
 class World {
@@ -53,6 +54,7 @@ class World {
         this.turnLeftTank = this.turnLeftTank.bind(this);
         this.turnRightTank = this.turnRightTank.bind(this);
         this.goForwardTankToEnd = this. goForwardTankToEnd.bind(this);
+        this.goWhile = this.goWhile.bind(this);
         this.reset = this.reset.bind(this);
         this.log = this.log.bind(this);
 
@@ -81,6 +83,11 @@ class World {
         resetTankButton.onclick = this.reset;
         document.body.appendChild(resetTankButton);
 
+        const goWhileButton = document.createElement('button');
+        goWhileButton.textContent= "ゴールまで繰り返す";
+        goWhileButton.onclick = this.goWhile;
+        document.body.appendChild(goWhileButton);
+
         const logButton = document.createElement('button');
         logButton.textContent = "ログ";
         logButton.onclick = this.log;
@@ -99,6 +106,7 @@ class World {
             location: this._tankLocation,
             position: this._tankPosition,
             moveValue: 0,
+            function: this.turnRightTank
         };
 
         Display.print(state);
@@ -121,7 +129,8 @@ class World {
             order: "左ニマワレ",
             location: this._tankLocation,
             position: this._tankPosition,
-            moveValue: 0
+            moveValue: 0,
+            function: this.turnLeftTank
         };
 
         Display.print(state);
@@ -144,7 +153,8 @@ class World {
             order: "前ニススメ",
             location: this._tankLocation,
             position: this._tankPosition,
-            moveValue: 1
+            moveValue: 1,
+            function: this.goForwardTank
         };
         this._point++;
 
@@ -172,7 +182,8 @@ class World {
             order: `前ニ${moveValue}マス進め`,
             location: this._tankLocation,
             position: this._tankPosition,
-            moveValue
+            moveValue,
+            function: this.goForwardTankWithSquares
         };
 
         Display.print(state);
@@ -197,7 +208,8 @@ class World {
             order: "ぶつかるまで前に進め",
             location: this._tankLocation,
             position: this._tankPosition,
-            moveValue
+            moveValue,
+            function: this.goForwardTankToEnd
         };
 
         Display.print(state);
@@ -207,10 +219,22 @@ class World {
         return Object.assign({}, state);
     }
 
+    goWhile() {
+        const states = Array.from(this._states);
+
+        for (let i = 0; i < 10; i++) {
+            states.map(state => {
+                if (state.function) {
+                    state.function();
+                }
+            });
+        }
+    }
+
     reset() {
         console.log("reset");
 
-        if (this._states.length <= 1) {
+        if (this._states.length <= 0) {
             throw "これ以上戻れません";
         }
 
@@ -229,7 +253,6 @@ class World {
 
     log() {
         console.log(this._states);
-        console.log(`point: ${this.point}`);
     }
 
     print() {

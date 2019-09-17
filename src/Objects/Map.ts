@@ -42,7 +42,6 @@ class Map {
 
     getDisplayStrings() {
         const displayRoutes = this.getDisplayRoutes();
-        console.log(displayRoutes);
         let str = [];
     
         for (let i = 0; i < this._horizontalNumber * 3; i++) {
@@ -65,7 +64,6 @@ class Map {
         for(let y = 0; y < this._verticalNumber; y++) {
             for (let i = 0; i < 3; i++) {
                 for(let x = 0; x < this._horizontalNumber; x++) {
-                    console.log(`tile: ${y * this._verticalNumber + x}, i: ${i}`);
                     const currentTile = this._tiles[y * this._verticalNumber + x].routes;
                     
                     switch(i) {
