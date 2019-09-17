@@ -11,16 +11,22 @@ class World {
     private _map: Map;
     private _tankLocation: number;
     private _tankPosition: Position;
+    private _goalLocation: number;
     private _states: State[];
 
-    constructor(map: Map, tankLocation: number, tankPosition: Position) {
+    constructor(map: Map, tankLocation: number, tankPosition: Position, goalLocation: number) {
         if (!(map.horizontalNumber * map.verticalNumber > tankLocation || tankLocation >= 0)) {
             throw "TankがMap上にありません";
+        }
+
+        if (!(map.horizontalNumber * map.verticalNumber > goalLocation || goalLocation >= 0)) {
+            throw "GoalがMap上にありません";
         }
 
         this._map = map;
         this._tankLocation = tankLocation;
         this._tankPosition = tankPosition;
+        this._goalLocation = goalLocation;
         this._states = [{
             order: "start",
             location: this._tankLocation,

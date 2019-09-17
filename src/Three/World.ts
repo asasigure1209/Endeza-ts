@@ -13,17 +13,27 @@ class World {
     private _map: Map;
     private _tankLocation: number;
     private _tankPosition: Position;
+    private _goalLocation: number;
     private _states: State[];
     private _webGl: WebGL;
 
-    constructor(map: Map, tankLocation: number, tankPosition: Position) {
+    constructor(map: Map, tankLocation: number, tankPosition: Position, goalLocation: number) {
         if (!(map.horizontalNumber * map.verticalNumber > tankLocation || tankLocation >= 0)) {
             throw "TankがMap上にありません";
+        }
+
+        if (!(map.horizontalNumber * map.verticalNumber > goalLocation || goalLocation >= 0)) {
+            throw "GoalがMap上にありません";
+        }
+
+        if (goalLocation === tankLocation) {
+            throw "Tankがすでにゴールにいます"
         }
 
         this._map = map;
         this._tankLocation = tankLocation;
         this._tankPosition = tankPosition;
+        this._goalLocation = goalLocation;
         this._states = [{
             order: "start",
             location: this._tankLocation,
@@ -89,6 +99,7 @@ class World {
         Display.print(state);
         this._states.push(state);
         this.print();
+        this.callGoal();
         return Object.assign({}, state);
     }
 
@@ -110,6 +121,7 @@ class World {
         Display.print(state);
         this._states.push(state);
         this.print();
+        this.callGoal();
         return Object.assign({}, state);
     }
 
@@ -131,6 +143,7 @@ class World {
         Display.print(state);
         this._states.push(state);
         this.print();
+        this.callGoal();
         return Object.assign({}, state);
     }
 
@@ -155,6 +168,7 @@ class World {
         Display.print(state);
         this._states.push(state);
         this.print();
+        this.callGoal();
         return Object.assign({}, state);
     }
 
@@ -177,6 +191,7 @@ class World {
         Display.print(state);
         this._states.push(state);
         this.print();
+        this.callGoal();
         return Object.assign({}, state);
     }
 
@@ -254,6 +269,12 @@ class World {
                 return this._map.tiles[this._tankLocation].routes.bottom;
             case Position.Left:
                 return this._map.tiles[this._tankLocation].routes.left;
+        }
+    }
+
+    private callGoal() {
+        if (this._tankLocation === this._goalLocation) {
+            console.log("Goal!!");
         }
     }
 

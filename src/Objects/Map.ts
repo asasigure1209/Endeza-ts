@@ -42,6 +42,7 @@ class Map {
 
     getDisplayStrings() {
         const displayRoutes = this.getDisplayRoutes();
+        console.log(displayRoutes);
         let str = [];
     
         for (let i = 0; i < this._horizontalNumber * 3; i++) {
@@ -62,8 +63,9 @@ class Map {
         let sortedTilesRoutes: boolean[] = [];
 
         for(let y = 0; y < this._verticalNumber; y++) {
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 3; i++) {
                 for(let x = 0; x < this._horizontalNumber; x++) {
+                    console.log(`tile: ${y * this._verticalNumber + x}, i: ${i}`);
                     const currentTile = this._tiles[y * this._verticalNumber + x].routes;
                     
                     switch(i) {
@@ -75,11 +77,9 @@ class Map {
                         case 1:
                             sortedTilesRoutes.push(currentTile.left);
                             sortedTilesRoutes.push(true);
-                            break;
-                        case 2:
                             sortedTilesRoutes.push(currentTile.right);
                             break;
-                        case 3:
+                        case 2:
                             sortedTilesRoutes.push(false);
                             sortedTilesRoutes.push(currentTile.bottom);
                             sortedTilesRoutes.push(false);

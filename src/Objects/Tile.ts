@@ -59,6 +59,48 @@ export const RoutesTemplate = {
         right: false,
         bottom: true,
         left: true
+    },
+
+    horizontal: {
+        top: false,
+        right: true,
+        bottom: false,
+        left: true
+    },
+
+    vertical: {
+        top: true,
+        right: false,
+        bottom: true,
+        left: false
+    },
+
+    onlyTop: {
+        top: true,
+        right: false,
+        bottom: false,
+        left: false
+    },
+
+    onlyRight: {
+        top: false,
+        right: true,
+        bottom: false,
+        left: false
+    },
+
+    onlyBottom: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: false
+    },
+
+    onlyLeft: {
+        top: false,
+        right: false,
+        bottom: false,
+        left: true
     }
 };
 
