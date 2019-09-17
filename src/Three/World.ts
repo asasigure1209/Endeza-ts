@@ -6,7 +6,8 @@ import Display from "../Objects/Display";
 export type State = {
     order: string,
     location: number,
-    position: Position
+    position: Position,
+    moveValue: number
 }
 
 class World {
@@ -16,6 +17,7 @@ class World {
     private _goalLocation: number;
     private _states: State[];
     private _webGl: WebGL;
+    private _point: number;
 
     constructor(map: Map, tankLocation: number, tankPosition: Position, goalLocation: number) {
         if (!(map.horizontalNumber * map.verticalNumber > tankLocation || tankLocation >= 0)) {
@@ -37,8 +39,10 @@ class World {
         this._states = [{
             order: "start",
             location: this._tankLocation,
-            position: this._tankPosition
+            position: this._tankPosition,
+            moveValue: 0
         }];
+        this._point = 0;
 
         // WebGL
         this._webGl = new WebGL(map.horizontalNumber, 1000, map, tankLocation, tankPosition);
@@ -90,10 +94,11 @@ class World {
         this._tankPosition = (this._tankPosition + 1) % 4;
         this._webGl.turnRight();
 
-        const state = {
+        const state: State = {
             order: "右ニマワレ",
             location: this._tankLocation,
-            position: this._tankPosition
+            position: this._tankPosition,
+            moveValue: 0,
         };
 
         Display.print(state);
@@ -112,10 +117,11 @@ class World {
 
         this._webGl.turnLeft();
 
-        const state = {
+        const state: State = {
             order: "左ニマワレ",
             location: this._tankLocation,
-            position: this._tankPosition
+            position: this._tankPosition,
+            moveValue: 0
         };
 
         Display.print(state);
@@ -134,11 +140,13 @@ class World {
         this._webGl.moveTank(1);
         this._tankLocation = this.getForwardLocation();
 
-        const state = {
+        const state: State = {
             order: "前ニススメ",
             location: this._tankLocation,
-            position: this._tankPosition
+            position: this._tankPosition,
+            moveValue: 1
         };
+        this._point++;
 
         Display.print(state);
         this._states.push(state);
@@ -153,7 +161,8 @@ class World {
         for (let i = 0; i < square; i++) {
             if (this.isRoute()){
                 this._tankLocation = this.getForwardLocation();
-                moveValue++;   
+                this._point++;
+                moveValue++;
             }
         }
 
@@ -162,7 +171,8 @@ class World {
         const state = {
             order: `前ニ${moveValue}マス進め`,
             location: this._tankLocation,
-            position: this._tankPosition
+            position: this._tankPosition,
+            moveValue
         };
 
         Display.print(state);
@@ -177,15 +187,17 @@ class World {
 
         while(this.isRoute()) {
             this._tankLocation = this.getForwardLocation();
+            this._point++;
             moveValue++;
         }
 
         this._webGl.moveTank(moveValue);
         
-        const state = {
+        const state: State = {
             order: "ぶつかるまで前に進め",
             location: this._tankLocation,
-            position: this._tankPosition
+            position: this._tankPosition,
+            moveValue
         };
 
         Display.print(state);
@@ -202,7 +214,8 @@ class World {
             throw "これ以上戻れません";
         }
 
-        this._states.pop();
+        const beforState = this._states.pop();
+        this._point -= beforState.moveValue;
         Display.delete();
 
         const beforeState = this._states[this._states.length - 1];
@@ -216,6 +229,7 @@ class World {
 
     log() {
         console.log(this._states);
+        console.log(`point: ${this.point}`);
     }
 
     print() {
@@ -291,6 +305,11 @@ class World {
             default:
                 return this._tankLocation;
         }
+    }
+
+    get point(): number {
+        // start命令は除外
+        return this._point + this._states.length - 1;
     }
 }
 
