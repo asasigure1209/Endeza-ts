@@ -15,5 +15,6 @@ module.exports = {
     },
     resolve: {
         extensions: [".ts"]
-    }
+    },
+    target: "node"
 }

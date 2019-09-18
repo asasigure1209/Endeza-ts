@@ -2,6 +2,7 @@ import Tile, { RoutesTemplate } from "./Objects/Tile";
 import Map from "./Objects/Map";
 import World from "./Three/World";
 import { Position } from "./Enum/Position";
+import * as http from 'http';
 
 /* VTank内部 */
 
@@ -28,3 +29,33 @@ const tiles = [
 // Mapの生成
 const map = new Map(4, 4, tiles);
 const world = new World(map, 0, Position.Bottom, 15);
+
+
+const server = http.createServer();
+
+server.on('request', (request: http.IncomingMessage, response: http.ServerResponse) => {
+    if (request.method == 'POST') {
+        let postData = '';
+
+        request.on('data', (chunk) => {
+            postData += chunk;
+            
+            if (postData === "goForwardTank") {
+                world.goForwardTank();
+            } else if (postData === "turnRightTank") {
+                world.turnRightTank();
+            } else if (postData === "turnLeftTank") {
+                world.turnLeftTank();
+            } else if (postData === "goForwardTankToEnd"){ 
+                world.goForwardTankToEnd();
+            } else if (postData === "reset") {
+                world.reset();
+            }
+        }).on('end', () => {
+            response.end('送信したのは' + postData);
+        })
+    }
+})
+
+server.listen(8080);
+console.log(`Server running at ${server.address}`);
