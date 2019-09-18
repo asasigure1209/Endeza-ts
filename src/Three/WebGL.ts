@@ -27,7 +27,7 @@ class WebGL {
     private _animationSpeed: number;
     private _state: state[];
 
-    constructor(horizontalNumber: number, width: number, map: Map, tankLocation: number, tankPosition: Position) {
+    constructor(horizontalNumber: number, width: number, map: Map, tankLocation: number, tankPosition: Position, goalLocation: number) {
         // WebGL
         this._scene = new Scene();
         this._camera = new PerspectiveCamera(45, 1, 1, 10000);
@@ -41,7 +41,7 @@ class WebGL {
             (width / 2) / (this._horizontalNumber * 3) - (width / 2)
         );
 
-        const tankGeo = new BoxGeometry(this._cubeSize/2, this._cubeSize, this._cubeSize/2);
+        const tankGeo = new BoxGeometry(this._cubeSize/2, this._cubeSize, this._cubeSize/4);
         const tankMaterial = new MeshBasicMaterial({ color: 0xFFFFFF });
         this._tank = new Mesh(tankGeo, tankMaterial);
         this._animationEvents = [];
@@ -53,6 +53,7 @@ class WebGL {
         this.init();
         this.renderMap(map.getDisplayRoutes());
         this.renderTank(tankLocation, tankPosition);
+        this.renderGoal(goalLocation);
     }
 
     moveTank(moveValue: number) {
@@ -149,6 +150,24 @@ class WebGL {
             cubeLocation.z += this._cubeSize;
             cubeLocation.x = this._cubeBasePosition.x;
         }
+    }
+
+    private renderGoal(goalLocation: number) {
+        const goalGeo = new BoxGeometry(this._cubeSize, this._cubeSize, this._cubeSize)
+        const goalMaterial = new MeshBasicMaterial({ color: 0xFF0000 });
+        const goal = new Mesh(goalGeo, goalMaterial);
+
+        const displayLocation = this.getDisplayLocation(goalLocation);
+        const z = Math.floor(displayLocation / (this._horizontalNumber * 3));
+        const x = displayLocation - z * this._horizontalNumber * 3;
+
+        let displayGoalLocation = new Vector3().copy(this._cubeBasePosition);
+        displayGoalLocation.x += this._cubeSize * x;
+        displayGoalLocation.z += this._cubeSize * z;
+
+        goal.position.add(displayGoalLocation);
+
+        this._scene.add(goal);
     }
 
     private animate() {

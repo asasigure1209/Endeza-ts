@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@types/node": "^12.7.2",
-    "nw": "^0.39.3"
+    "nw": "^0.39.3",
+    "three-gltf-loader": "^1.108.0"
   }
 }

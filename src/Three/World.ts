@@ -46,7 +46,7 @@ class World {
         this._point = 0;
 
         // WebGL
-        this._webGl = new WebGL(map.horizontalNumber, 1000, map, tankLocation, tankPosition);
+        this._webGl = new WebGL(map.horizontalNumber, 1000, map, tankLocation, tankPosition, goalLocation);
 
 
         // DOM(button)
