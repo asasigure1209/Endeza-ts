@@ -77,30 +77,34 @@ class World {
         turnLeftTankButton.onclick = this.turnLeftTank;
         document.body.appendChild(turnLeftTankButton);
 
+        /*
         const goForwardTankToEndButton = document.createElement('button');
         goForwardTankToEndButton.textContent = "ぶつかるまで進む";
         goForwardTankToEndButton.onclick = this.goForwardTankToEnd;
         document.body.appendChild(goForwardTankToEndButton);
 
-        const resetTankButton = document.createElement('button');
-        resetTankButton.textContent = "前に戻る";
-        resetTankButton.onclick = this.reset;
-        document.body.appendChild(resetTankButton);
-
         const goWhileButton = document.createElement('button');
         goWhileButton.textContent= "ゴールまで繰り返す";
         goWhileButton.onclick = this.goWhile;
         document.body.appendChild(goWhileButton);
+        */
+
+       const resetTankButton = document.createElement('button');
+       resetTankButton.textContent = "前に戻る";
+       resetTankButton.onclick = this.reset;
+       document.body.appendChild(resetTankButton);
 
         const sendOrderButton = document.createElement('button');
         sendOrderButton.textContent = "送信";
         sendOrderButton.onclick = this.sendOrder;
         document.body.appendChild(sendOrderButton);
 
+        /*
         const logButton = document.createElement('button');
         logButton.textContent = "ログ";
         logButton.onclick = this.log;
         document.body.appendChild(logButton);
+        */
 
         console.log("tankをマップ上に配置しました。");
         this.print();
