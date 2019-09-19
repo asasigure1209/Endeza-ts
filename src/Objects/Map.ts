@@ -13,6 +13,7 @@ class Map {
     private _tiles: Tile[];
 
     constructor(verticalNumber: number, horizontalNumber: number, tiles: Tile[]) {
+        // タイルの枚数とマップの整合性を調べてから初期化
         if (this.hasCorrectNumberTiles(verticalNumber * horizontalNumber, tiles) && this._isCorrectMap(tiles, verticalNumber, horizontalNumber)) {
             this._verticalNumber = verticalNumber;
             this._horizontalNumber = horizontalNumber;
@@ -25,6 +26,7 @@ class Map {
         }
     }
 
+    // CUI上でマップの描画
     print() {
         let str = this.getDisplayStrings();
         let text = "";
@@ -40,6 +42,7 @@ class Map {
         console.log(text);
     }
 
+    // CUI表示用の文字配列生成
     getDisplayStrings() {
         const displayRoutes = this.getDisplayRoutes();
         let str = [];

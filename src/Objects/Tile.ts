@@ -1,3 +1,4 @@
+// その方向に道があるかどうかで判断します
 export type Routes = {
     top: boolean,
     right: boolean,
@@ -5,6 +6,7 @@ export type Routes = {
     left: boolean
 }
 
+// 予め用意したマップ作成用タイル設定
 export const RoutesTemplate = {
     lowerLeft: {
         top: true,

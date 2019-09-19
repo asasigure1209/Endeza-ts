@@ -1,4 +1,4 @@
-import { Scene, Camera, PerspectiveCamera, Renderer, WebGLRenderer, GridHelper, Vector3, BoxGeometry, MeshBasicMaterial, Mesh, UnsignedByteType, PositionalAudioHelper, Euler } from "three";
+import { Scene, Camera, PerspectiveCamera, WebGLRenderer, GridHelper, Vector3, BoxGeometry, MeshBasicMaterial, Mesh, UnsignedByteType, PositionalAudioHelper, Euler } from "three";
 import Map from "../Objects/Map";
 import { Position } from "../Enum/Position";
 
@@ -15,6 +15,7 @@ type state = {
     rotation: Euler
 }
 
+// GUI表示用
 class WebGL {
     private _scene: Scene;
     private _camera: Camera;
@@ -56,6 +57,7 @@ class WebGL {
         this.renderGoal(goalLocation);
     }
 
+    // タンクを指定された分前方向に動かす
     moveTank(moveValue: number) {
         this._animationEvents.push({
             moveValue: moveValue,
@@ -63,6 +65,7 @@ class WebGL {
         });
     }
 
+    // タンク右回転
     turnRight() {
         this._animationEvents.push({
             turnRight: true,
@@ -70,6 +73,7 @@ class WebGL {
         });
     }
 
+    // タンク左回転
     turnLeft() {
         this._animationEvents.push({
             turnLeft: true,
@@ -77,6 +81,7 @@ class WebGL {
         });
     }
 
+    // 直前の命令を取り消す
     reset() {
         this._animationEvents.push({
             reset: true
@@ -97,6 +102,7 @@ class WebGL {
         this.animate();
     }
 
+    // タンクの描画
     private renderTank(tankLocation: number, tankPosition: Position) {
         const displayLocation = this.getDisplayLocation(tankLocation);
         const z = Math.floor(displayLocation / (this._horizontalNumber * 3));
@@ -129,6 +135,7 @@ class WebGL {
         return (1 + 3 * y) * this._horizontalNumber * 3 + (1 + 3 * x);
     }
 
+    //　Mapの生成
     private renderMap(displayRoutes: boolean[]) {
         // cubes
         const cubeGeo = new BoxGeometry(this._cubeSize, this._cubeSize, this._cubeSize);
@@ -152,6 +159,7 @@ class WebGL {
         }
     }
 
+    // ゴール目印を描画
     private renderGoal(goalLocation: number) {
         const goalGeo = new BoxGeometry(this._cubeSize, this._cubeSize, this._cubeSize)
         const goalMaterial = new MeshBasicMaterial({ color: 0xFF0000 });
@@ -170,6 +178,7 @@ class WebGL {
         this._scene.add(goal);
     }
 
+    // アニメーション(標準:60fps)
     private animate() {
         requestAnimationFrame(this.animate);
 

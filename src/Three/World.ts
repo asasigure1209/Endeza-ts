@@ -15,9 +15,12 @@ export type State = {
 
 class World {
     private _map: Map;
+    // タンクの位置(左上から0,1,2,3...))
     private _tankLocation: number;
+    // タンクの向いている方向
     private _tankPosition: Position;
     private _goalLocation: number;
+    // 命令やタンクの状態を管理するもの
     private _states: State[];
     private _webGl: WebGL;
     private _point: number;
@@ -39,6 +42,7 @@ class World {
         this._tankLocation = tankLocation;
         this._tankPosition = tankPosition;
         this._goalLocation = goalLocation;
+
         this._states = [{
             order: "start",
             location: this._tankLocation,
@@ -48,11 +52,11 @@ class World {
         }];
         this._point = 0;
 
-        // WebGL
+        // WebGL(GUI用)
         this._webGl = new WebGL(map.horizontalNumber, 1000, map, tankLocation, tankPosition, goalLocation);
 
 
-        // DOM(button)
+        // DOM(button配置)
         this.goForwardTank = this.goForwardTank.bind(this);
         this.turnLeftTank = this.turnLeftTank.bind(this);
         this.turnRightTank = this.turnRightTank.bind(this);
@@ -77,7 +81,7 @@ class World {
         turnLeftTankButton.onclick = this.turnLeftTank;
         document.body.appendChild(turnLeftTankButton);
 
-        /*
+        /* 利用していない命令
         const goForwardTankToEndButton = document.createElement('button');
         goForwardTankToEndButton.textContent = "ぶつかるまで進む";
         goForwardTankToEndButton.onclick = this.goForwardTankToEnd;
@@ -110,6 +114,7 @@ class World {
         this.print();
     }
 
+    // 右に回る
     turnRightTank() {
         this._tankPosition = (this._tankPosition + 1) % 4;
         this._webGl.turnRight();
@@ -130,6 +135,7 @@ class World {
         return Object.assign({}, state);
     }
 
+    // 左に回る
     turnLeftTank() {
         if (this._tankPosition <= 0) {
             this._tankPosition = 3;
@@ -181,6 +187,7 @@ class World {
         return Object.assign({}, state);
     }
 
+    // 指定されたマス分前に進む
     goForwardTankWithSquares(square: number) {
         let moveValue = 0;
 
@@ -210,6 +217,7 @@ class World {
         return Object.assign({}, state);
     }
 
+    // 壁にぶつかるまで進む
     goForwardTankToEnd(): State {
         let moveValue = 0;
 
@@ -237,6 +245,7 @@ class World {
         return Object.assign({}, state);
     }
 
+    // 繰り返し
     goWhile() {
         const states = Array.from(this._states);
 
@@ -249,6 +258,7 @@ class World {
         }
     }
 
+    // 直前の命令を1つ取り消す
     reset() {
         console.log("reset");
 
@@ -269,6 +279,7 @@ class World {
         this._webGl.reset();
     }
 
+    // http(post)で命令をタンクに送信
     sendOrder() {
         const HOST = "";
         const PATH = "";
@@ -310,6 +321,7 @@ class World {
         console.log(this._states);
     }
 
+    // CUI上でMap,Tankの表示
     print() {
         let displayStrings = Array.from(this._map.getDisplayStrings());
         let tankChar: string;
@@ -351,6 +363,7 @@ class World {
         return (1 + 3 * y) * this._map.horizontalNumber * 3 + (1 + 3 * x);
     }
 
+    // Tankが向いている方向に道があるか
     private isRoute() {
         switch(this._tankPosition) {
             case Position.Top:
@@ -363,13 +376,14 @@ class World {
                 return this._map.tiles[this._tankLocation].routes.left;
         }
     }
-
+    // ゴールコール
     private callGoal() {
         if (this._tankLocation === this._goalLocation) {
             console.log("Goal!!");
         }
     }
 
+    // タンクが向いている方向に1マス進んだときのLocation
     private getForwardLocation() {
         switch(this._tankPosition) {
             case Position.Top:
@@ -385,6 +399,7 @@ class World {
         }
     }
 
+    // 得点計算
     get point(): number {
         // start命令は除外
         return this._point + this._states.length - 1;

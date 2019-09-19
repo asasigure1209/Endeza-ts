@@ -6,7 +6,7 @@ import * as http from 'http';
 
 /* VTank内部 */
 
-// 利用するTile(4x4)
+// 迷路を生成するために必要なタイル(4x4)
 const tiles = [
     new Tile(RoutesTemplate.upperLeft),
     new Tile(RoutesTemplate.horizontal),
@@ -26,11 +26,12 @@ const tiles = [
     new Tile(RoutesTemplate.onlyLeft)
 ];
 
-// Mapの生成
+// 迷路の生成
 const map = new Map(4, 4, tiles);
+// 迷路にVTankとゴールを設定する。
 const world = new World(map, 0, Position.Bottom, 15);
 
-// 音声認識結果を受け取る
+// 音声認識結果を受け取るServer
 const server = http.createServer();
 server.on('request', (request: http.IncomingMessage, response: http.ServerResponse) => {
     if (request.method == 'POST') {
@@ -39,6 +40,7 @@ server.on('request', (request: http.IncomingMessage, response: http.ServerRespon
         request.on('data', (chunk) => {
             postData += chunk;
             
+            // 命令に応じてタンクを移動させる
             if (postData === "goForwardTank") {
                 world.goForwardTank();
             } else if (postData === "turnRightTank") {
