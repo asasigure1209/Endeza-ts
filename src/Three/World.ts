@@ -2,12 +2,14 @@ import Map from "../Objects/Map";
 import WebGL from "../Three/WebGL";
 import { Position } from "../Enum/Position";
 import Display from "../Objects/Display";
+import * as http from 'http';
 
 export type State = {
     order: string,
     location: number,
     position: Position,
     moveValue: number,
+    sendOrder: number,
     function?: any
 }
 
@@ -41,6 +43,7 @@ class World {
             order: "start",
             location: this._tankLocation,
             position: this._tankPosition,
+            sendOrder: -1,
             moveValue: 0
         }];
         this._point = 0;
@@ -56,6 +59,7 @@ class World {
         this.goForwardTankToEnd = this. goForwardTankToEnd.bind(this);
         this.goWhile = this.goWhile.bind(this);
         this.reset = this.reset.bind(this);
+        this.sendOrder = this.sendOrder.bind(this);
         this.log = this.log.bind(this);
 
         const goForwardTankButton = document.createElement('button');
@@ -88,6 +92,11 @@ class World {
         goWhileButton.onclick = this.goWhile;
         document.body.appendChild(goWhileButton);
 
+        const sendOrderButton = document.createElement('button');
+        sendOrderButton.textContent = "送信";
+        sendOrderButton.onclick = this.sendOrder;
+        document.body.appendChild(sendOrderButton);
+
         const logButton = document.createElement('button');
         logButton.textContent = "ログ";
         logButton.onclick = this.log;
@@ -105,6 +114,7 @@ class World {
             order: "右ニマワレ",
             location: this._tankLocation,
             position: this._tankPosition,
+            sendOrder: 1,
             moveValue: 0,
             function: this.turnRightTank
         };
@@ -129,6 +139,7 @@ class World {
             order: "左ニマワレ",
             location: this._tankLocation,
             position: this._tankPosition,
+            sendOrder: 3,
             moveValue: 0,
             function: this.turnLeftTank
         };
@@ -153,6 +164,7 @@ class World {
             order: "前ニススメ",
             location: this._tankLocation,
             position: this._tankPosition,
+            sendOrder: 0,
             moveValue: 1,
             function: this.goForwardTank
         };
@@ -178,10 +190,11 @@ class World {
 
         this._webGl.moveTank(moveValue);
 
-        const state = {
+        const state: State = {
             order: `前ニ${moveValue}マス進め`,
             location: this._tankLocation,
             position: this._tankPosition,
+            sendOrder: 5,
             moveValue,
             function: this.goForwardTankWithSquares
         };
@@ -208,6 +221,7 @@ class World {
             order: "ぶつかるまで前に進め",
             location: this._tankLocation,
             position: this._tankPosition,
+            sendOrder: 4,
             moveValue,
             function: this.goForwardTankToEnd
         };
@@ -249,6 +263,43 @@ class World {
 
         this.print();
         this._webGl.reset();
+    }
+
+    sendOrder() {
+        const HOST = "";
+        const PATH = "";
+        const sendOrders = this._states.map(state => state.sendOrder);
+        console.log(sendOrders);
+
+        let postData = {
+            "orders": sendOrders
+        };
+        
+        let postDataStr = JSON.stringify(postData);
+        let options = {
+            host: HOST,
+            port: 80,
+            path: PATH,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postDataStr)
+            }
+        };
+        
+        const req = http.request(options, (res) => {
+          console.log('STATUS: ' + res.statusCode);
+          console.log('HEADERS: ' + JSON.stringify(res.headers));
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            console.log('BODY: ' + chunk);
+          });
+        });
+        req.on('error', (e) => {
+          console.log('problem with request: ' + e.message);
+        });
+        req.write(postDataStr);
+        req.end(); 
     }
 
     log() {

@@ -30,9 +30,8 @@ const tiles = [
 const map = new Map(4, 4, tiles);
 const world = new World(map, 0, Position.Bottom, 15);
 
-
+// 音声認識結果を受け取る
 const server = http.createServer();
-
 server.on('request', (request: http.IncomingMessage, response: http.ServerResponse) => {
     if (request.method == 'POST') {
         let postData = '';
