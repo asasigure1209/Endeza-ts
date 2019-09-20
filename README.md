@@ -22,6 +22,17 @@ git clone git@github.com:asasigure1209/Endeza-ts.git
 npm install
 ```
 
+### ホストとパスとポートの選択
+シミュレーターからタンクに命令を送る際にHTTP通信を利用します。
+タンク側サーバの情報を入力する必要があります。
+World.tsのsendOrdersメソッド内の
+``` javascript
+const HOST = "";
+const PATH = "";
+const PORT = 80;
+```
+を修正してください。
+
 ### トランスパイル
 TypeScriptで書かれており、Webpackを使ってJavaScriptファイルにトランスパイルします。実行後はCtrl+Cで終了しても構いません。
 ターミナル上で入力

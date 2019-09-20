@@ -283,6 +283,7 @@ class World {
     sendOrder() {
         const HOST = "";
         const PATH = "";
+        const PORT = 80;
         const sendOrders = this._states.map(state => state.sendOrder);
         console.log(sendOrders);
 
@@ -293,7 +294,7 @@ class World {
         let postDataStr = JSON.stringify(postData);
         let options = {
             host: HOST,
-            port: 80,
+            port: PORT,
             path: PATH,
             method: 'POST',
             headers: {
