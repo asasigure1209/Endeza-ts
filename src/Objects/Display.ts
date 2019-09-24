@@ -16,7 +16,8 @@ class Display {
 
     static displayPoint(point: number) {
         const domElement = document.querySelector("h2");
-        domElement.textContent = point.toString();
+        const tensuu = 30 - point;
+        domElement.textContent = "ポイント: " + tensuu.toString();
     }
 }
 
