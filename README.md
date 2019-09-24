@@ -9,6 +9,7 @@
 + Node.js v10.15.3
 + Google Chrome
 + git
++ ngrock
 
 ### ソースコードの入手
 ターミナル上で入力

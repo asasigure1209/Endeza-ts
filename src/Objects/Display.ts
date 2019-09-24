@@ -13,6 +13,11 @@ class Display {
         const orders = domElement.querySelectorAll("p");
         orders[orders.length - 1].remove();
     }
+
+    static displayPoint(point: number) {
+        const domElement = document.querySelector("h2");
+        domElement.textContent = point.toString();
+    }
 }
 
 export default Display;

@@ -51,6 +51,8 @@ server.on('request', (request: http.IncomingMessage, response: http.ServerRespon
                 world.goForwardTankToEnd();
             } else if (postData === "reset") {
                 world.reset();
+            } else if(postData === "send") {
+                world.sendOrder();
             }
         }).on('end', () => {
             response.end('送信したのは' + postData);

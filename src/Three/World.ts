@@ -110,6 +110,8 @@ class World {
         document.body.appendChild(logButton);
         */
 
+        Display.displayPoint(this.point);
+
         console.log("tankをマップ上に配置しました。");
         this.print();
     }
@@ -130,6 +132,7 @@ class World {
 
         Display.print(state);
         this._states.push(state);
+        Display.displayPoint(this.point);
         this.print();
         this.callGoal();
         return Object.assign({}, state);
@@ -156,6 +159,7 @@ class World {
 
         Display.print(state);
         this._states.push(state);
+        Display.displayPoint(this.point);
         this.print();
         this.callGoal();
         return Object.assign({}, state);
@@ -182,6 +186,7 @@ class World {
 
         Display.print(state);
         this._states.push(state);
+        Display.displayPoint(this.point);
         this.print();
         this.callGoal();
         return Object.assign({}, state);
@@ -212,6 +217,7 @@ class World {
 
         Display.print(state);
         this._states.push(state);
+        Display.displayPoint(this.point);
         this.print();
         this.callGoal();
         return Object.assign({}, state);
@@ -240,6 +246,7 @@ class World {
 
         Display.print(state);
         this._states.push(state);
+        Display.displayPoint(this.point);
         this.print();
         this.callGoal();
         return Object.assign({}, state);
@@ -276,6 +283,7 @@ class World {
         this._tankPosition = beforeState.position;
 
         this.print();
+        Display.displayPoint(this.point);
         this._webGl.reset();
     }
 
