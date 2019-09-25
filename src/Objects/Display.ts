@@ -14,6 +14,12 @@ class Display {
         orders[orders.length - 1].remove();
     }
 
+    static allDelete() {
+        const domElement = document.querySelector("div.order");
+        const orders = domElement.querySelectorAll("p");
+        orders.forEach(order => order.remove());
+    }
+
     static displayPoint(point: number) {
         const domElement = document.querySelector("h2");
         const tensuu = 30 - point;

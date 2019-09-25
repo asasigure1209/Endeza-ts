@@ -23,9 +23,9 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "@types/node": "^12.7.5",
+    "@types/node": "^12.7.7",
     "http": "0.0.0",
-    "nw": "^0.39.3",
+    "nw": "^0.41.2",
     "three-gltf-loader": "^1.108.0"
   }
 }

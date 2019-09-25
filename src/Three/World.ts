@@ -4,6 +4,14 @@ import { Position } from "../Enum/Position";
 import Display from "../Objects/Display";
 import * as http from 'http';
 
+export type InitState = {
+    order: string,
+    location: number,
+    position: Position,
+    moveValue: number,
+    sendOrder: number
+}
+
 export type State = {
     order: string,
     location: number,
@@ -24,6 +32,7 @@ class World {
     private _states: State[];
     private _webGl: WebGL;
     private _point: number;
+    private _initState: InitState;
 
     constructor(map: Map, tankLocation: number, tankPosition: Position, goalLocation: number) {
         if (!(map.horizontalNumber * map.verticalNumber > tankLocation || tankLocation >= 0)) {
@@ -43,6 +52,13 @@ class World {
         this._tankPosition = tankPosition;
         this._goalLocation = goalLocation;
 
+        this._initState = {
+            order: "start",
+            location: this._tankLocation,
+            position: this._tankPosition,
+            sendOrder: -1,
+            moveValue: 0
+        };
         this._states = [{
             order: "start",
             location: this._tankLocation,
@@ -65,6 +81,7 @@ class World {
         this.reset = this.reset.bind(this);
         this.sendOrder = this.sendOrder.bind(this);
         this.log = this.log.bind(this);
+        this.init = this.init.bind(this);
 
         const goForwardTankButton = document.createElement('button');
         goForwardTankButton.textContent = "前に進む";
@@ -81,12 +98,17 @@ class World {
         turnLeftTankButton.onclick = this.turnLeftTank;
         document.body.appendChild(turnLeftTankButton);
 
-        /* 利用していない命令
         const goForwardTankToEndButton = document.createElement('button');
         goForwardTankToEndButton.textContent = "ぶつかるまで進む";
         goForwardTankToEndButton.onclick = this.goForwardTankToEnd;
         document.body.appendChild(goForwardTankToEndButton);
 
+        const initButton = document.createElement('button');
+        initButton.textContent="最初に戻る";
+        initButton.onclick = this.init;
+        document.body.appendChild(initButton);
+
+        /* 利用していない命令
         const goWhileButton = document.createElement('button');
         goWhileButton.textContent= "ゴールまで繰り返す";
         goWhileButton.onclick = this.goWhile;
@@ -114,6 +136,22 @@ class World {
 
         console.log("tankをマップ上に配置しました。");
         this.print();
+    }
+
+    init() {
+        // stateの初期化
+        this._states = [this._initState];
+        this._point = 0;
+
+        this._tankPosition = this._initState.position;
+        this._tankLocation = this._initState.location;
+        Display.displayPoint(this.point);
+
+        console.log("tankをマップ上に配置しました。");
+        this.print();
+        this._webGl.renderTank(this._initState.location, this._initState.position);
+        Display.allDelete();
+        console.log(`Location: ${this._initState.location}, Position: ${this._initState.position}`);
     }
 
     // 右に回る

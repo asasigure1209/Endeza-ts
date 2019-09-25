@@ -103,12 +103,22 @@ class WebGL {
     }
 
     // タンクの描画
-    private renderTank(tankLocation: number, tankPosition: Position) {
+    public renderTank(tankLocation: number, tankPosition: Position) {
+        this._tank.position.set(0, 0, 0);
+        this._tank.rotation.set(0, 0, 0);
+
+        // 一つ一つのオブジェクトの位置関係
         const displayLocation = this.getDisplayLocation(tankLocation);
+
+
         const z = Math.floor(displayLocation / (this._horizontalNumber * 3));
         const x = displayLocation - z * this._horizontalNumber * 3;
 
-        let displayTankLocation = new Vector3().copy(this._cubeBasePosition);
+        console.log(`x: ${x} z: ${z}`);
+
+        let displayTankLocation = this._cubeBasePosition.clone();
+        console.log(this._cubeBasePosition);
+        console.log(displayTankLocation);
         displayTankLocation.x += this._cubeSize * x;
         displayTankLocation.z += this._cubeSize * z;
 
