@@ -40,19 +40,23 @@ server.on('request', (request: http.IncomingMessage, response: http.ServerRespon
         request.on('data', (chunk) => {
             postData += chunk;
             
-            // 命令に応じてタンクを移動させる
-            if (postData === "goForwardTank") {
-                world.goForwardTank();
-            } else if (postData === "turnRightTank") {
-                world.turnRightTank();
-            } else if (postData === "turnLeftTank") {
-                world.turnLeftTank();
-            } else if (postData === "goForwardTankToEnd"){ 
-                world.goForwardTankToEnd();
-            } else if (postData === "reset") {
-                world.reset();
-            } else if(postData === "send") {
-                world.sendOrder();
+            try {
+                // 命令に応じてタンクを移動させる
+                if (postData === "goForwardTank") {
+                    world.goForwardTank();
+                } else if (postData === "turnRightTank") {
+                    world.turnRightTank();
+                } else if (postData === "turnLeftTank") {
+                    world.turnLeftTank();
+                } else if (postData === "goForwardTankToEnd"){ 
+                    world.goForwardTankToEnd();
+                } else if (postData === "reset") {
+                    world.reset();
+                } else if(postData === "send") {
+                    world.sendOrder();
+                }
+            } catch(e) {
+                console.log("request error");
             }
         }).on('end', () => {
             response.end('送信したのは' + postData);
