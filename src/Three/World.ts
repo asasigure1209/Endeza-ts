@@ -307,9 +307,11 @@ class World {
     reset() {
         console.log("reset");
 
-        if (this._states.length <= 0) {
+        if (this._states.length <= 1) {
             throw "これ以上戻れません";
         }
+
+        console.log(this._states);
 
         const beforState = this._states.pop();
         this._point -= beforState.moveValue;
