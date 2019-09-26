@@ -429,6 +429,7 @@ class World {
     private callGoal() {
         if (this._tankLocation === this._goalLocation) {
             console.log("Goal!!");
+            Display.goal(this._point);
         }
     }
 

@@ -25,6 +25,11 @@ class Display {
         const tensuu = 30 - point;
         domElement.textContent = "ポイント: " + tensuu.toString();
     }
+
+    static goal(point: number) {
+        const domElement = document.querySelector("h2");
+        domElement.textContent += "Goal!";
+    }
 }
 
 export default Display;
