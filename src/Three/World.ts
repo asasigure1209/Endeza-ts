@@ -156,8 +156,8 @@ class World {
 
     // 右に回る
     turnRightTank() {
+        this._webGl.turnRight(this._tankPosition);
         this._tankPosition = (this._tankPosition + 1) % 4;
-        this._webGl.turnRight();
 
         const state: State = {
             order: "右ニマワレ",
@@ -178,13 +178,13 @@ class World {
 
     // 左に回る
     turnLeftTank() {
+        this._webGl.turnLeft(this._tankPosition);
+
         if (this._tankPosition <= 0) {
             this._tankPosition = 3;
         } else {
             this._tankPosition = this._tankPosition - 1;
         }
-
-        this._webGl.turnLeft();
 
         const state: State = {
             order: "左ニマワレ",

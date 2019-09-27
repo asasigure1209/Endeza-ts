@@ -7,12 +7,14 @@ type event = {
     moveValue?: number,
     turnRight?: boolean,
     turnLeft?: boolean,
+    position?: Position,
     counter?: number
 }
 
 type state = {
     location: Vector3,
-    rotation: Euler
+    rotation: Euler,
+    position: Position
 }
 
 // GUI表示用
@@ -66,18 +68,20 @@ class WebGL {
     }
 
     // タンク右回転
-    turnRight() {
+    turnRight(position: Position) {
         this._animationEvents.push({
             turnRight: true,
-            counter: this._animationSpeed
+            counter: this._animationSpeed,
+            position
         });
     }
 
     // タンク左回転
-    turnLeft() {
+    turnLeft(position: Position) {
         this._animationEvents.push({
             turnLeft: true,
-            counter: this._animationSpeed
+            counter: this._animationSpeed,
+            position
         });
     }
 
@@ -106,6 +110,7 @@ class WebGL {
     public renderTank(tankLocation: number, tankPosition: Position) {
         this._tank.position.set(0, 0, 0);
         this._tank.rotation.set(0, 0, 0);
+        this._animationEvents = [];
 
         // 一つ一つのオブジェクトの位置関係
         const displayLocation = this.getDisplayLocation(tankLocation);
@@ -124,13 +129,13 @@ class WebGL {
 
         switch(tankPosition) {
             case Position.Top:
-                this._tank.rotateY(Math.PI/2);
+                this._tank.rotation.set(0, Math.PI/2, 0);
                 break;
             case Position.Bottom:
-                this._tank.rotateY(-Math.PI/2);
+                this._tank.rotation.set(0, -Math.PI/2, 0);
                 break;
             case Position.Left:
-                this._tank.rotateY(Math.PI);
+                this._tank.rotation.set(0, Math.PI, 0);
         }
 
         this._tank.position.add(displayTankLocation);
@@ -200,13 +205,32 @@ class WebGL {
             if (event.reset) {
                 const beforeState = this._state.pop();
                 this._tank.position.set(beforeState.location.x, beforeState.location.y, beforeState.location.z);
-                this._tank.rotation.set(this._tank.rotation.x, beforeState.rotation.y, this._tank.rotation.z);
+                // ここを固有値で治す
+                //this._tank.rotation.set(this._tank.rotation.x, beforeState.rotation.y, this._tank.rotation.z);
+                switch(beforeState.position) {
+                    case Position.Top:
+                        this._tank.rotation.set(0, Math.PI/2, 0);
+                        break;
+                    case Position.Bottom:
+                        this._tank.rotation.set(0, -Math.PI/2, 0);
+                        break;
+                    case Position.Left:
+                        this._tank.rotation.set(0, Math.PI, 0);
+                        break;
+                    case Position.Right:
+                        this._tank.rotation.set(0, 0, 0);
+                        break;
+                }
+
+                console.log(`beforeState: ${beforeState.position}`);
             } else {
                 // 前のタンクの状態を保存
                 if (event.counter === this._animationSpeed) {
+                    console.log(`event.position ${event.position}`);
                     this._state.push({
                         location: this._tank.position.clone(),
-                        rotation: this._tank.rotation.clone()
+                        rotation: this._tank.rotation.clone(),
+                        position: event.position
                     });
                 }
 
