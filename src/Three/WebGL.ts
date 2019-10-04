@@ -101,7 +101,7 @@ class WebGL {
         this._camera.lookAt(0, 0, 0);
 
         // grid
-        this._scene.add(new GridHelper(1000, this._horizontalNumber * 3));
+        //this._scene.add(new GridHelper(1000, this._horizontalNumber * 3));
 
         this.animate();
     }
@@ -172,8 +172,8 @@ class WebGL {
                 if (displayCenteredRoutes[j + i * this._horizontalNumber * 3]) {
                     const goal = new Mesh(goalGeo, goalMaterial);
                     const location = cubeLocation.clone();
-                    location.setY(50 / 4 - 50 / 4 / 2);
-                    goal.position.add(cubeLocation);
+                    location.setY(0 - 50/4);
+                    goal.position.add(location);
                     this._scene.add(goal);
                 }
 
