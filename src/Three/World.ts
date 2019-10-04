@@ -332,7 +332,7 @@ class World {
         const HOST = "";
         const PATH = "";
         const PORT = 80;
-        const sendOrders = this._states.map(state => state.sendOrder);
+        const sendOrders = this.transformSendOrder(this._states)
         console.log(sendOrders);
 
         let postData = {
@@ -403,6 +403,23 @@ class World {
         }
 
         console.log(text);
+    }
+
+    private transformSendOrder(states: State[]) {
+        const sendOrders: number[] = [];
+
+        for (let i = 0; i < states.length; i++) {
+            if (states[i].moveValue <= 1) {
+                sendOrders.push(states[i].sendOrder);
+            } else {
+                // ぶつかるまで前に進む
+                for (let j = 0; j < states[i].moveValue; j++) {
+                    sendOrders.push(0)
+                }
+            }
+        }
+
+        return sendOrders;
     }
 
     // 描画上のタンクの位置
