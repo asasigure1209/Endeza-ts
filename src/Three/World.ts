@@ -330,7 +330,7 @@ class World {
     // http(post)で命令をタンクに送信
     sendOrder() {
         const HOST = "";
-        const PATH = "";
+        const PATH = "/tank";
         const PORT = 80;
         const sendOrders = this.transformSendOrder(this._states)
         console.log(sendOrders);

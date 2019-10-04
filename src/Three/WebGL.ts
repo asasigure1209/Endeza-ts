@@ -54,7 +54,7 @@ class WebGL {
         this.animate = this.animate.bind(this);
 
         this.init();
-        this.renderMap(map.getDisplayRoutes());
+        this.renderMap(map.getDisplayRoutes(), map.getCenterdRoute());
         this.renderTank(tankLocation, tankPosition);
         this.renderGoal(goalLocation);
     }
@@ -151,10 +151,13 @@ class WebGL {
     }
 
     //　Mapの生成
-    private renderMap(displayRoutes: boolean[]) {
+    private renderMap(displayRoutes: boolean[], displayCenteredRoutes: boolean[]) {
         // cubes
         const cubeGeo = new BoxGeometry(this._cubeSize, this._cubeSize, this._cubeSize);
         const cubeMaterial = new MeshBasicMaterial({ color: 0x003300 });
+
+        const goalGeo = new BoxGeometry(this._cubeSize, this._cubeSize / 4, this._cubeSize)
+        const goalMaterial = new MeshBasicMaterial({ color: 0xFF0000 });
 
         let cubeLocation = new Vector3().copy(this._cubeBasePosition);
 
@@ -164,6 +167,14 @@ class WebGL {
                     const cube = new Mesh(cubeGeo, cubeMaterial);
                     cube.position.add(cubeLocation);
                     this._scene.add(cube);
+                }
+
+                if (displayCenteredRoutes[j + i * this._horizontalNumber * 3]) {
+                    const goal = new Mesh(goalGeo, goalMaterial);
+                    const location = cubeLocation.clone();
+                    location.setY(50 / 4 - 50 / 4 / 2);
+                    goal.position.add(cubeLocation);
+                    this._scene.add(goal);
                 }
 
                 cubeLocation.x += this._cubeSize;

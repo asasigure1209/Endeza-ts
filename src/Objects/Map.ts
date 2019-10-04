@@ -93,6 +93,39 @@ class Map {
         return sortedTilesRoutes;
     }
 
+    // 描画順にRouteを並び替える
+    getCenterdRoute() {
+        let sortedTilesRoutes: boolean[] = [];
+
+        for(let y = 0; y < this._verticalNumber; y++) {
+            for (let i = 0; i < 3; i++) {
+                for(let x = 0; x < this._horizontalNumber; x++) {
+                    const currentTile = this._tiles[y * this._verticalNumber + x].routes;
+                    
+                    switch(i) {
+                        case 0:
+                            sortedTilesRoutes.push(false);
+                            sortedTilesRoutes.push(false);
+                            sortedTilesRoutes.push(false);
+                            break;
+                        case 1:
+                            sortedTilesRoutes.push(false);
+                            sortedTilesRoutes.push(true);
+                            sortedTilesRoutes.push(false);
+                            break;
+                        case 2:
+                            sortedTilesRoutes.push(false);
+                            sortedTilesRoutes.push(false);
+                            sortedTilesRoutes.push(false);
+                            break;
+                    }
+                }
+            }
+        }
+
+        return sortedTilesRoutes;
+    }
+
     // タイルの数があっているか
     private hasCorrectNumberTiles(tilesNumber: number, tiles: Tile[]) {
         if (tilesNumber === tiles.length) {
